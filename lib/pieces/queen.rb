@@ -12,5 +12,4 @@ class Queen < SlidingPiece
   def to_s
     "♕"
   end
-
 end

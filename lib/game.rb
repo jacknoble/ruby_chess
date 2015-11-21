@@ -2,7 +2,6 @@ require_relative "chess_pieces"
 require_relative "board"
 
 class Game
-
   attr_accessor :board, :turn
 
   def initialize
@@ -12,26 +11,8 @@ class Game
 
   def play
     until over?
-      begin
-
-      move = get_move
-      piece_to_move = @board[move[0]]
-      destination = move[1]
-      raise MoveError.new "No piece there." if piece_to_move.nil?
-      raise MoveError.new "That's not your piece." if piece_to_move.color != @turn
-      unless piece_to_move.moves.include?(destination)
-        raise MoveError.new "Not a legal move!"
-      end
-
-      piece_to_move.move(destination)
-
-      rescue MoveError => e
-        puts "#{e.message}"
-        retry
-      end
-
+      take_turn
       @turn = ((@turn == :white) ? :black : :white)
-
     end
 
     if @board.checkmate?(:white)
@@ -41,7 +22,23 @@ class Game
     end
 
     puts @board
+  end
 
+  def take_turn
+    move = get_move
+    piece_to_move = @board[move[0]]
+    destination = move[1]
+    fail MoveError, "No piece there." if piece_to_move.nil?
+    fail MoveError, "That's not your piece." if piece_to_move.color != @turn
+    unless piece_to_move.moves.include?(destination)
+      fail MoveError, "Not a legal move!"
+    end
+
+    piece_to_move.move(destination)
+
+  rescue MoveError => e
+    puts "#{e.message}"
+    retry
   end
 
   def get_move
@@ -55,22 +52,19 @@ class Game
     [pos, dest]
   end
 
-  ALPHA_MOVES = ["a", "b", "c", "d", "e", "f", "g", "h"]
   def parse_chess_notation(pos)
-    pos[0] = ALPHA_MOVES.index(pos[0])
+    pos[0] = ('a'..'h').to_a.index(pos[0])
     pos[1] = 8 - pos[1].to_i
     pos[0], pos[1] = pos[1], pos[0]
     pos
   end
 
-
   def over?
     @board.checkmate?(:white) || @board.checkmate?(:black)
   end
-
 end
 
 if $PROGRAM_NAME == __FILE__
- g = Game.new
- g.play
+  g = Game.new
+  g.play
 end

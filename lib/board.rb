@@ -3,13 +3,12 @@ require_relative "chess_pieces"
 class Board
   attr_accessor :matrix, :piece_set
 
-
   def initialize
     @matrix = Array.new(8) { Array.new(8) }
   end
 
   def self.starting_board
-   Board.new.set_pieces
+    Board.new.set_pieces
   end
 
   def set_pieces
@@ -17,7 +16,6 @@ class Board
     set_back_row
     self
   end
-
 
   def [](pos)
     row, col = pos
@@ -43,25 +41,25 @@ class Board
         if piece.nil?
           disp_char = "   "
           if (row_i + offset).even?
-            disp_char.colorize(:background => :blue )
+            disp_char.colorize(background: :blue)
           else
-            disp_char.colorize(:background => :red )
+            disp_char.colorize(background: :red)
           end
         else
           disp_char = " " + piece.to_s + " "
           if (row_i + offset).even?
-            disp_char.colorize(:color => piece.color, :background => :blue )
+            disp_char.colorize(color: piece.color, background: :blue)
           else
-            disp_char.colorize(:color => piece.color, :background => :red )
+            disp_char.colorize(color: piece.color, background: :red)
           end
         end
       end
     end
     display.matrix << [" A ", " B ", " C ", " D ", " E ", " F ", " G ", " H "]
     display.matrix.each_with_index do |row, i|
-      row << " #{8-i}"
+      row << " #{8 - i}"
     end
-    display.matrix.map{|row| row.join("") }.join("\n")
+    display.matrix.map { |row| row.join("") }.join("\n")
   end
 
   def check?(color)
@@ -94,52 +92,48 @@ class Board
   end
 
   def dup
-     board_copy = Board.new
-     piece_set.each do |piece|
-       piece.class.new(board_copy, piece.position, piece.color)
-     end
+    board_copy = Board.new
+    piece_set.each do |piece|
+      piece.class.new(board_copy, piece.position, piece.color)
+    end
 
-     board_copy
+    board_copy
   end
 
   def piece_set
-    @matrix.flatten.select{|tile| !tile.nil?}
+    @matrix.flatten.select { |tile| !tile.nil? }
   end
 
   private
 
-    def find_king_pos(color)
-      king_position = nil
-      piece_set.each do |piece|
-        if piece.is_a?(King) && piece.color == color
-          king_position = piece.position
-        end
-       end
-      king_position
-    end
-
-
-    def set_back_row
-      bothsides = [[0, :black], [7, :white]]
-      bothsides.each do |side|
-        BACK_ROW.each_with_index do |piece, piece_index|
-          Object.const_get(piece).new(self, [side[0], piece_index], side[1])
-        end
-      end
-    
-    end
-    
-    BACK_ROW = ["Rook","Knight","Bishop","Queen","King","Bishop","Knight","Rook"]
-
-    def set_pawns
-      #hashmap to begin game OR array of classes
-      @matrix[1].each_index do |tile|
-        Pawn.new(self, [1, tile], :black)
-      end
-
-      @matrix[6].each_index do |tile|
-        Pawn.new(self, [6, tile], :white)
+  def find_king_pos(color)
+    king_position = nil
+    piece_set.each do |piece|
+      if piece.is_a?(King) && piece.color == color
+        king_position = piece.position
       end
     end
+    king_position
+  end
 
+  def set_back_row
+    bothsides = [[0, :black], [7, :white]]
+    bothsides.each do |side|
+      BACK_ROW.each_with_index do |piece, piece_index|
+        Object.const_get(piece).new(self, [side[0], piece_index], side[1])
+      end
+    end
+  end
+
+  BACK_ROW = %w(Rook Knight Bishop Queen King Bishop Knight Rook)
+  def set_pawns
+    #hashmap to begin game OR array of classes
+    @matrix[1].each_index do |tile|
+      Pawn.new(self, [1, tile], :black)
+    end
+
+    @matrix[6].each_index do |tile|
+      Pawn.new(self, [6, tile], :white)
+    end
+  end
 end

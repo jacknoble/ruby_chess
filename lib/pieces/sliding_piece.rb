@@ -2,7 +2,6 @@ require 'matrix'
 require_relative "piece"
 
 class SlidingPiece < Piece
-
   def moves
     move_possibilities = []
     self.class::SLIDE_DIRECTIONS.each do |direction|
@@ -15,5 +14,4 @@ class SlidingPiece < Piece
 
     legal_moves(move_possibilities)
   end
-
 end

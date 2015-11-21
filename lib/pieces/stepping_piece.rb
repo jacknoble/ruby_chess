@@ -1,5 +1,4 @@
 class SteppingPiece < Piece
-
   def moves
     move_possibilities = []
     self.class::MOVES.each do |move|
@@ -8,6 +7,4 @@ class SteppingPiece < Piece
 
     legal_moves(move_possibilities)
   end
-
-
 end
