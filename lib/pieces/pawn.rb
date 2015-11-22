@@ -6,7 +6,7 @@ class Pawn < Piece
   end
 
   def to_s
-    "♙"
+    '♙'
   end
 
   def move(pos)
