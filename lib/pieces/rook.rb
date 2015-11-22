@@ -6,7 +6,12 @@ class Rook < SlidingPiece
                       [1, 0]]
 
   def to_s
-    "♖"
+    '♖'
   end
 
+  def directions
+    [1, 0, -1].permutations(2).
+      to_a.select { |row, col| (row + col).odd? }.
+      map { |dir| Vector[*dir] }
+  end
 end

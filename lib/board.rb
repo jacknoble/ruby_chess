@@ -1,5 +1,5 @@
-require "colorize"
-require_relative "chess_pieces"
+require 'colorize'
+require_relative 'chess_pieces'
 class Board
   attr_accessor :matrix, :piece_set
 
@@ -18,17 +18,17 @@ class Board
   end
 
   def [](pos)
-    row, col = pos
+    row, col = pos.to_a
     @matrix[row][col]
   end
 
   def []=(pos, piece)
-    row, col = pos
+    row, col = pos.to_a
     @matrix[row][col] = piece
   end
 
   def tile_clear?(pos)
-    row, col = pos
+    row, col = pos.to_a
     @matrix[row].nil? || @matrix[row][col].nil?
   end
 
