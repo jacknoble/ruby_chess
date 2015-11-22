@@ -5,7 +5,7 @@ require_relative '../lib/board' # Refactor so this isn't a dependency
 class TestSteppingPiece < MiniTest::Test
   def test_moves
     piece = SteppingPieceExample.new(Board.new, Vector[2, 2], :white)
-    assert piece.moves == [Vector[3, 3], Vector[1, 1]]
+    assert piece.moves == [[3, 3], [1, 1]]
   end
 
   class SteppingPieceExample < SteppingPiece
