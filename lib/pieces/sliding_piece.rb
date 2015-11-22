@@ -11,6 +11,6 @@ class SlidingPiece < Piece
       end
     end
 
-    legal_moves(move_possibilities)
+    legal_moves(move_possibilities).map(&:to_a)
   end
 end
