@@ -19,11 +19,12 @@ class Game
     @move_order.first
   end
 
-  def play(turns = Infinity)
-    turns.downto(1) do
+  def play(turns = Float::INFINITY)
+    while turns > 0
       break if over?
       take_turn
       @move_order.rotate!
+      turns -= 1
     end
 
     if @board.checkmate?(:white)
@@ -66,9 +67,4 @@ class Game
 
   private def_delegator :@renderer, :render
   private def_delegator :@player_interface, :input_move
-end
-
-if $PROGRAM_NAME == __FILE__
-  g = Game.new
-  g.play
 end
