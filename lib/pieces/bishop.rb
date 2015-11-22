@@ -5,7 +5,7 @@ class Bishop < SlidingPiece
   end
 
   def directions
-    [1, 0, -1].permutations(2).
+    [1, 0, -1].permutation(2).
       to_a.select { |row, col| (row + col).even? }.
       map { |dir| Vector[*dir] }
   end

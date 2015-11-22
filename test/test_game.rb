@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require_relative '../lib/game'
 
-class TestGame < MiniTest::Unit::TestCase
+class TestGame < MiniTest::Test
   def test_turn_taking_with_correct_input
     origin = [6, 4]
     destination = [4, 4]
