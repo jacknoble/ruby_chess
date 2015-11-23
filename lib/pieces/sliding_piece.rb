@@ -2,15 +2,12 @@ require 'matrix'
 
 class SlidingPiece < Piece
   def moves
-    move_possibilities = []
-    directions.each do |direction|
-      (1..7).each do |magnitude|
-        pos_move = magnitude * Vector[*direction] + @position
-        move_possibilities << pos_move
-        break unless @board.tile_clear?(pos_move)
+    possibilities =
+      directions.map do |direction|
+        (1..7).map { |magnitude| magnitude * direction + @position }.
+        take_while { |destination| @board.tile_clear?(destination) }
       end
-    end
 
-    legal_moves(move_possibilities).map(&:to_a)
+    legal_moves(possibilities.flatten).map(&:to_a)
   end
 end

@@ -1,41 +1,41 @@
 # -*- coding: utf-8 -*-
+require 'byebug'
 class Pawn < Piece
   def initialize(board, position, color)
     super
-    @first_move = true
+    @initial_position = @position
   end
 
   def to_s
     '♙'
   end
 
-  def move(pos)
-    super(pos)
-    @first_move = false
-    nil
-  end
-
   def moves
-    move_possibilities = []
-
-    @pawn_moves = PAWN_MOVES.dup
-    val = ((@color == :white) ? -1 : 1)
-    @pawn_moves.each do |move_possibility|
-      x, y = move_possibility[0] * val + @position[0], move_possibility[1] * val + @position[1]
-      if @board.tile_clear?([x, y])
-        if move_possibility == [1, 0]
-          @pawn_moves << [2, 0] if @first_move
-          move_possibilities << [x, y]
-        elsif move_possibility == [2, 0]
-          move_possibilities << [x, y]
-        end
-      elsif !@board.tile_clear?([x, y]) && @board[[x, y]].color != self.color
-        move_possibilities << [x, y] unless move_possibility[1] == 0
-      end
-    end
-
-    move_possibilities
+    (move_possibilities + attack_possibilities).map(&:to_a)
   end
 
-  PAWN_MOVES = [[1, 0], [1, -1], [1, 1]]
+  private
+
+  def first_move?
+    @position == @initial_position
+  end
+
+  def orientation
+    @color == :white ? -1 : 1
+  end
+
+  def move_possibilities
+    vectors = [Vector[1, 0]]
+    vectors << Vector[2, 0] if first_move?
+    vectors.map { |vector| vector * orientation }.
+      map { |dir| dir + @position }.
+      take_while { |dest| @board.tile_clear?(dest) }
+  end
+
+  def attack_possibilities
+    [Vector[1, 1], Vector[1, -1]].map { |vector| vector * orientation }.
+      map { |dir| dir + @position }.
+      select { |pos| !@board.tile_clear?(pos) }.
+      select { |pos| @board[pos].color != color }
+  end
 end
