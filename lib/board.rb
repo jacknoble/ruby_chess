@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'chess_pieces'
+require_relative 'board_matrix_renderer'
 class Board
   attr_accessor :matrix, :piece_set
 
@@ -33,33 +34,7 @@ class Board
   end
 
   def to_s
-    offset = 0
-    display = self.dup
-    display.matrix.each_with_index do |row, row_i|
-      row.map! do |piece|
-        offset += 1
-        if piece.nil?
-          disp_char = "   "
-          if (row_i + offset).even?
-            disp_char.colorize(background: :blue)
-          else
-            disp_char.colorize(background: :red)
-          end
-        else
-          disp_char = " " + piece.to_s + " "
-          if (row_i + offset).even?
-            disp_char.colorize(color: piece.color, background: :blue)
-          else
-            disp_char.colorize(color: piece.color, background: :red)
-          end
-        end
-      end
-    end
-    display.matrix << [" A ", " B ", " C ", " D ", " E ", " F ", " G ", " H "]
-    display.matrix.each_with_index do |row, i|
-      row << " #{8 - i}"
-    end
-    display.matrix.map { |row| row.join("") }.join("\n")
+    BoardMatrixRenderer.new(@matrix).render
   end
 
   def check?(color)
@@ -127,7 +102,6 @@ class Board
 
   BACK_ROW = %w(Rook Knight Bishop Queen King Bishop Knight Rook)
   def set_pawns
-    #hashmap to begin game OR array of classes
     @matrix[1].each_index do |tile|
       Pawn.new(self, [1, tile], :black)
     end
