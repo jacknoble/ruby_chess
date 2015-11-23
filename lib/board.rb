@@ -50,18 +50,17 @@ class Board
 
   def checkmate?(color)
     return false unless check?(color)
-    piece_and_moves = []
-    dup.piece_set.each do |piece|
-      if piece.color == color
-        piece_and_moves << [piece, piece.moves]
+    piece_moves =
+      dup.piece_set.map do |piece|
+        next if piece.color != color
+        [piece, piece.moves]
       end
-    end
-    piece_and_moves.all? do |piece|
-      piece[1].all? do |test_move|
-        board_copy = self.dup
-        piece[0].board = board_copy
-        piece[0].move(test_move)
-        board_copy.check?(color)
+
+    piece_moves.all? do |piece, moves|
+      moves.all? do |test_move|
+        piece.board = dup
+        piece.move(test_move)
+        piece.board.check?(color)
       end
     end
   end
@@ -82,13 +81,7 @@ class Board
   private
 
   def find_king_pos(color)
-    king_position = nil
-    piece_set.each do |piece|
-      if piece.is_a?(King) && piece.color == color
-        king_position = piece.position
-      end
-    end
-    king_position
+    piece_set.find { |piece| piece.is_a?(King) && piece.color == color }.position
   end
 
   def set_back_row
