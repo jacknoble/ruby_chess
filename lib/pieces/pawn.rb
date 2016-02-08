@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'byebug'
 class Pawn < Piece
   def initialize(board, position, color)
     super

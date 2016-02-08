@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require_relative '../lib/board'
-require 'byebug'
 
 class TestBoard < MiniTest::Test
   def test_to_s

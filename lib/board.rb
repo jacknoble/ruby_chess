@@ -84,16 +84,17 @@ class Board
     piece_set.find { |piece| piece.is_a?(King) && piece.color == color }.position
   end
 
+  BACK_ROW = %w(Rook Knight Bishop Queen King Bishop Knight Rook)
+
   def set_back_row
     bothsides = [[0, :black], [7, :white]]
-    bothsides.each do |side|
+    bothsides.each do |row, color|
       BACK_ROW.each_with_index do |piece, piece_index|
-        Object.const_get(piece).new(self, [side[0], piece_index], side[1])
+        Object.const_get(piece).new(self, [row, piece_index], color)
       end
     end
   end
 
-  BACK_ROW = %w(Rook Knight Bishop Queen King Bishop Knight Rook)
   def set_pawns
     @matrix[1].each_index do |tile|
       Pawn.new(self, [1, tile], :black)
