@@ -1,11 +1,13 @@
 class BasicNotationParser
-  def parse(input)
+  def parse(_game, input)
     origin, dest = input.split('-')
     origin = convert_to_matrix_location(origin.split(''))
     dest = convert_to_matrix_location(dest.split(''))
 
     [origin, dest]
   end
+
+  private
 
   def convert_to_matrix_location(pos)
     column, row = pos

@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require_relative '../lib/pieces/stepping_piece'
-require_relative '../lib/board' # Refactor so this isn't a dependency
+require_relative '../../lib/pieces/stepping_piece'
+require_relative '../../lib/board' # Refactor so this isn't a dependency
 
 class TestSlidingPiece < MiniTest::Test
   def test_moves

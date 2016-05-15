@@ -81,7 +81,9 @@ class Board
   private
 
   def find_king_pos(color)
-    piece_set.find { |piece| piece.is_a?(King) && piece.color == color }.position
+    piece_set.find do |piece|
+      piece.is_a?(King) && piece.color == color
+    end.position
   end
 
   BACK_ROW = %w(Rook Knight Bishop Queen King Bishop Knight Rook)

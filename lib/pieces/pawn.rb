@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+require_relative 'piece'
+
 class Pawn < Piece
   def initialize(board, position, color)
     super

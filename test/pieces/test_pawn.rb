@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require_relative '../lib/pieces/pawn'
-require_relative '../lib/board' # Refactor so this isn't a dependency
+require_relative '../../lib/pieces/pawn'
+require_relative '../../lib/board' # Refactor so this isn't a dependency
 
 class TestPawn < MiniTest::Test
   def test_moves_when_white_and_first_move
