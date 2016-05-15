@@ -16,6 +16,7 @@ class Config
   def parser
     return @parser if defined?(@parser)
     notation = @console_notation || :chess
+    require_relative "./parsers/#{notation.to_s}_notation_parser"
     parser_class = "#{notation.to_s.capitalize}NotationParser"
     @parser = Object.const_get(parser_class).new
   end
