@@ -1,3 +1,4 @@
+require 'paint'
 class BoardMatrixRenderer
   def initialize(matrix)
     @matrix = matrix
@@ -38,6 +39,6 @@ class BoardMatrixRenderer
   def display_character(piece, row_i, col_i)
     color = piece.color if piece
     background = @tile_colors[(row_i + col_i) % 2]
-    pad(piece || ' ').colorize(background: background, color: color)
+    Paint[pad(piece || ' '), color, background]
   end
 end

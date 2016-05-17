@@ -5,12 +5,17 @@ class ChessNotationParser
     raw_dest = input.slice(-2, 2).split('')
     dest = convert_to_matrix_location(raw_dest)
     pieces = game.board.piece_set.select do |piece|
-      piece.is_a?(piece_type) && piece.moves.include?(dest)
+      piece.is_a?(piece_type) &&
+      piece.moves.include?(dest) &&
+      piece.color == game.turn
     end
 
     if pieces.length == 1
       [pieces[0].position.to_a, dest]
     end
+  rescue
+    puts 'Unintelligible move'
+    retry
   end
 
   private

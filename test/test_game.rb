@@ -17,7 +17,6 @@ class TestGame < MiniTest::Test
     game.play(1)
 
     assert game.board[destination] == piece
-    :qa
     assert game.turn == :black
   end
 
