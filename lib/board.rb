@@ -1,4 +1,3 @@
-require 'colorize'
 require_relative 'chess_pieces'
 require_relative 'board_matrix_renderer'
 class Board

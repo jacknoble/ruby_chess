@@ -1,4 +1,3 @@
-require 'byebug'
 class ChessNotationParser
   def parse(game, input)
     piece_type = infer_type(input)
